@@ -1,11 +1,11 @@
 #!/bin/bash 
 set -e
 
-if [ -z "${PRESTASHOP_VERSION+x}" ]
+if [ -z "${PRESTASHOP_VERSION}" ]
 	then PRESTASHOP_VERSION=1.6.1.6;
 fi
 
-if [ -z "${PRESTASHOP_LANG+x}" ]
+if [ -z "${PRESTASHOP_LANG}" ]
   then PRESTASHOP_LANG=it;
 fi
 
@@ -14,13 +14,13 @@ PRESTASHOP_ROOT_DIR=${OPENSHIFT_DATA_DIR}public
 cd $OPENSHIFT_DATA_DIR
 if [ ! -d ${PRESTASHOP_ROOT_DIR} ]; then
   
-  # Create Solr directory structure
+  # Create root document for prestashop
   mkdir -p ${PRESTASHOP_ROOT_DIR};
 
 fi
 
-# Get Prestashop
-  wget -c   https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip && unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
+# Get Prestashop and unzip
+  wget -c https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip && unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
 
 ln -sf ${PRESTASHOP_ROOT_DIR} ${OPENSHIFT_REPO_DIR}php
 
