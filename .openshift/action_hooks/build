@@ -20,9 +20,10 @@ if [ ! -d ${PRESTASHOP_ROOT_DIR} ]; then
 fi
 
 # Get Prestashop and unzip
-  wget -c https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip && unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
+  wget -c https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip; 
+  unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
 
-ln -sf ${PRESTASHOP_ROOT_DIR}/prestashop ${OPENSHIFT_REPO_DIR}php
+ln -sf ${PRESTASHOP_ROOT_DIR}/prestashop ${OPENSHIFT_REPO_DIR}/php
 
 
 if [ -z "$OPENSHIFT_MYSQL_DB_HOST" ]
@@ -38,3 +39,13 @@ if [ -z "$OPENSHIFT_MYSQL_DB_HOST" ]
 then
     exit 5
 fi
+
+
+php ${PRESTASHOP_ROOT_DIR}/prestashop/install/index_cli.php \
+    --language=${PRESTASHOP_LANG} \
+    --name=${$OPENSHIFT_APP_NAME} \
+    --db_server=${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT} \
+    --db_name=${OPENSHIFT_APP_NAME} \
+    --db_user=${OPENSHIFT_MYSQL_DB_USERNAME} \
+    --db_password=${OPENSHIFT_MYSQL_DB_PASSWORD} \
+    --domain=${OPENSHIFT_APP_DNS}
