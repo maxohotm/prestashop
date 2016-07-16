@@ -22,7 +22,7 @@ fi
 # Get Prestashop and unzip
   wget -c https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip && unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
 
-ln -sf ${PRESTASHOP_ROOT_DIR} ${OPENSHIFT_REPO_DIR}php
+ln -sf ${PRESTASHOP_ROOT_DIR}/prestashop ${OPENSHIFT_REPO_DIR}php
 
 
 if [ -z "$OPENSHIFT_MYSQL_DB_HOST" ]
