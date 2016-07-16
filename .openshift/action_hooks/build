@@ -1,5 +1,5 @@
 #!/bin/bash 
-#set -e
+set -e
 
 if [ -z "${PRESTASHOP_VERSION}" ]
 	then PRESTASHOP_VERSION=1.6.1.6;
@@ -20,8 +20,8 @@ if [ ! -d ${PRESTASHOP_ROOT_DIR} ]; then
 fi
 
 # Get Prestashop and unzip
-  wget -c https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip; 
-  unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
+wget -c https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip; 
+unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
 
 ln -sf ${PRESTASHOP_ROOT_DIR}/prestashop ${OPENSHIFT_REPO_DIR}/php;
 
@@ -40,7 +40,6 @@ then
     exit 5
 fi
 
-#:${OPENSHIFT_MYSQL_DB_PORT}
 php ${PRESTASHOP_ROOT_DIR}/prestashop/install/index_cli.php \
     --language=${PRESTASHOP_LANG} \
     --name=${OPENSHIFT_APP_NAME} \
@@ -48,18 +47,13 @@ php ${PRESTASHOP_ROOT_DIR}/prestashop/install/index_cli.php \
     --db_name=${OPENSHIFT_APP_NAME} \
     --db_user=${OPENSHIFT_MYSQL_DB_USERNAME} \
     --db_password=${OPENSHIFT_MYSQL_DB_PASSWORD} \
-    --domain=${OPENSHIFT_APP_DNS}
-    
-# gestire bash: --name=${$OPENSHIFT_APP_NAME}: bad substitution
-# -- Installation successfull! --
-   
-echo "\
-    --language=${PRESTASHOP_LANG} \
-    --name=${OPENSHIFT_APP_NAME} \
-    --db_server=${OPENSHIFT_MYSQL_DB_HOST} \
-    --db_name=${OPENSHIFT_APP_NAME} \
-    --db_user=${OPENSHIFT_MYSQL_DB_USERNAME} \
-    --db_password=${OPENSHIFT_MYSQL_DB_PASSWORD} \
-    --domain=${OPENSHIFT_APP_DNS}
-"
+    --domain=${OPENSHIFT_APP_DNS} \
+    --email=pub@prestashop.com \
+    --password=0123456789
+
+    echo "=================================================="
+    echo "  Prestashop admin login: pub@prestashop.com"
+    echo "  Prestashop admin password: 0123456789"
+    echo "  Don't forget to change your Prestashop admin password!"
+    echo "=================================================="
 
