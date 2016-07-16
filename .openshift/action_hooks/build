@@ -40,12 +40,24 @@ then
     exit 5
 fi
 
-
+#:${OPENSHIFT_MYSQL_DB_PORT}
 php ${PRESTASHOP_ROOT_DIR}/prestashop/install/index_cli.php \
     --language=${PRESTASHOP_LANG} \
     --name=${$OPENSHIFT_APP_NAME} \
-    --db_server=${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT} \
+    --db_server=${OPENSHIFT_MYSQL_DB_HOST} \
     --db_name=${OPENSHIFT_APP_NAME} \
     --db_user=${OPENSHIFT_MYSQL_DB_USERNAME} \
     --db_password=${OPENSHIFT_MYSQL_DB_PASSWORD} \
     --domain=${OPENSHIFT_APP_DNS}
+    
+    
+echo "\
+    --language=${PRESTASHOP_LANG} \
+    --name=${$OPENSHIFT_APP_NAME} \
+    --db_server=${OPENSHIFT_MYSQL_DB_HOST} \
+    --db_name=${OPENSHIFT_APP_NAME} \
+    --db_user=${OPENSHIFT_MYSQL_DB_USERNAME} \
+    --db_password=${OPENSHIFT_MYSQL_DB_PASSWORD} \
+    --domain=${OPENSHIFT_APP_DNS}
+"
+
