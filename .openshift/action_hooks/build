@@ -1,5 +1,5 @@
 #!/bin/bash 
-set -e
+#set -e
 
 if [ -z "${PRESTASHOP_VERSION}" ]
 	then PRESTASHOP_VERSION=1.6.1.6;
@@ -9,9 +9,9 @@ if [ -z "${PRESTASHOP_LANG}" ]
   then PRESTASHOP_LANG=it;
 fi
 
-PRESTASHOP_ROOT_DIR=${OPENSHIFT_DATA_DIR}public
+PRESTASHOP_ROOT_DIR=${OPENSHIFT_DATA_DIR}public;
 
-cd $OPENSHIFT_DATA_DIR
+cd $OPENSHIFT_DATA_DIR;
 if [ ! -d ${PRESTASHOP_ROOT_DIR} ]; then
   
   # Create root document for prestashop
@@ -23,7 +23,7 @@ fi
   wget -c https://download.prestashop.com/download/releases/prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip; 
   unzip prestashop_${PRESTASHOP_VERSION}_${PRESTASHOP_LANG}.zip -d ${PRESTASHOP_ROOT_DIR};
 
-ln -sf ${PRESTASHOP_ROOT_DIR}/prestashop ${OPENSHIFT_REPO_DIR}/php
+ln -sf ${PRESTASHOP_ROOT_DIR}/prestashop ${OPENSHIFT_REPO_DIR}/php;
 
 
 if [ -z "$OPENSHIFT_MYSQL_DB_HOST" ]
@@ -43,17 +43,19 @@ fi
 #:${OPENSHIFT_MYSQL_DB_PORT}
 php ${PRESTASHOP_ROOT_DIR}/prestashop/install/index_cli.php \
     --language=${PRESTASHOP_LANG} \
-    --name=${$OPENSHIFT_APP_NAME} \
+    --name=${OPENSHIFT_APP_NAME} \
     --db_server=${OPENSHIFT_MYSQL_DB_HOST} \
     --db_name=${OPENSHIFT_APP_NAME} \
     --db_user=${OPENSHIFT_MYSQL_DB_USERNAME} \
     --db_password=${OPENSHIFT_MYSQL_DB_PASSWORD} \
     --domain=${OPENSHIFT_APP_DNS}
     
-    
+# gestire bash: --name=${$OPENSHIFT_APP_NAME}: bad substitution
+# -- Installation successfull! --
+   
 echo "\
     --language=${PRESTASHOP_LANG} \
-    --name=${$OPENSHIFT_APP_NAME} \
+    --name=${OPENSHIFT_APP_NAME} \
     --db_server=${OPENSHIFT_MYSQL_DB_HOST} \
     --db_name=${OPENSHIFT_APP_NAME} \
     --db_user=${OPENSHIFT_MYSQL_DB_USERNAME} \
